@@ -29,29 +29,40 @@ from grepg import GrepG
 
 USER_AGENT = 'grepg/{} (python {})'.format(version, '{}.{}.{}'.format(py_ver.major, py_ver.minor, py_ver.micro))
 PROG = 'grepg'
+DEFAULT_SUBCOMMAND = "search"
 
+def create_parser():
+    parser = argparse.ArgumentParser(prog=PROG)
+    parser.add_argument('--verbose',
+            action='store_true',
+            help='Show debugging info')
 
-def validate_args(parsed_args):
-    pass
+    sub_parsers = parser.add_subparsers(dest='subcommand',
+            help='sub-command help')
+    parser_configure = sub_parsers.add_parser('configure',
+            help='Configures the client for accessing private data')
+    parser_create = sub_parsers.add_parser('create',
+            help='Creates a resource on GrepPage')
+    parser_show = sub_parsers.add_parser('show',
+            help='Displays a resource on GrepPage')
+    parser_search = sub_parsers.add_parser('search',
+            help='Searches for keywords')
+
+    parser_search.add_argument('--global',
+            action='store_true',
+            help='Search all public data on GrepPage')
+    parser_search.add_argument('keywords',
+            nargs=argparse.REMAINDER)
+    return parser
+
+def get_args(args):
+    if args[0].lower() not in "create configure show search".split():
+        args.insert(0, DEFAULT_SUBCOMMAND)
+    return args
 
 def main():
-    # print(USER_AGENT)
-    # print('GrepG command line client')
-
-    parser = argparse.ArgumentParser(prog=PROG)
-    parser.add_argument('--verbose', action='store_true', help='Show debugging info')
-
-    sub_parsers = parser.add_subparsers(dest='subcommand', help='sub-command help')
-    parser_configure = sub_parsers.add_parser('configure', help='Configures the client for accessing private data')
-    parser_create = sub_parsers.add_parser('create', help='Creates a resource on GrepPage')
-    parser_show = sub_parsers.add_parser('show', help='Displays a resource on GrepPage')
-    parser_search = sub_parsers.add_parser('search', help='Searches for keywords')
-
-    parser_search.add_argument('--global', action='store_true', help='Search all public data on GrepPage')
-    parser_search.add_argument('keywords', nargs=argparse.REMAINDER)
-
-    parsed_args = parser.parse_args(sys.argv[1:])
-    validate_args(parsed_args)
+    parser = create_parser()
+    parsed_args = parser.parse_args(get_args(sys.argv[1:]))
     GrepG.create_command_clazz(parsed_args).execute()
 
 if __name__ == '__main__':
