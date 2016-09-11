@@ -1,0 +1,13 @@
+topic:
+description:
+command:
+
+# Please enter the relevant fields for the new item. Lines starting
+# with '#' will be ignored, and empty fields will abort the create.
+#
+# Available topics: git, unix and ubuntu, markdown, scala
+#
+# Example New Item
+# topic: git
+# description: create a new branch
+# command: git checkout -b NEW_BRANCH

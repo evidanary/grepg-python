@@ -39,12 +39,26 @@ def create_parser():
 
     sub_parsers = parser.add_subparsers(dest='subcommand',
             help='sub-command help')
+
+    # Configure
     parser_configure = sub_parsers.add_parser('configure',
             help='Configures the client for accessing private data')
+
+    # Create
     parser_create = sub_parsers.add_parser('create',
             help='Creates a resource on GrepPage')
+    create_sp = parser_create.add_subparsers(dest="create_subcommand",
+            help="Create Command Help")
+    create_item_parser = create_sp.add_parser('item',
+            help="Create an item")
+    create_topic_parser = create_sp.add_parser('topic',
+            help="Create a topic")
+
+    # Show
     parser_show = sub_parsers.add_parser('show',
             help='Displays a resource on GrepPage')
+
+    # Search
     parser_search = sub_parsers.add_parser('search',
             help='Searches for keywords')
 
