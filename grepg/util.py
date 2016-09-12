@@ -74,20 +74,17 @@ def user_dir():
 def cheats_uri(topic_id):
         return ('/').join(['/users', get_settings('user_name'), 'sheets', str(topic_id), 'cheats'])
 
-def get_settings(key_name, default=None):
+def get_settings(key_name, default=''):
     file_to_load = credentials_file() if(key_name in WRITE_TO_CREDS_FILE) else settings_file()
-    home = user_dir()
-    user_settings_file = os.path.join(home,
-                '.grepg', file_to_load)
-    if os.path.exists(user_settings_file):
-        with open(user_settings_file) as user_config_file:
+    if os.path.exists(file_to_load):
+        with open(file_to_load) as user_config_file:
             try:
                 yaml_dict = yaml.load(user_config_file)
                 if key_name in yaml_dict and len(yaml_dict[key_name].strip()) > 0:
                     return yaml_dict[key_name]
             except Exception as e:
                 raise e
-        return default
+    return default
 
 def exit_if_no_auth():
     if len(get_settings('user_name').strip()) == 0 or len(get_settings('secret_access_key')) == 0:
@@ -96,7 +93,6 @@ def exit_if_no_auth():
         exit(1)
 
 def create_item_on_remote(item):
-    exit_if_no_auth()
     user_name = get_settings('user_name')
     data = [{"command": item.command,
             "description": item.description}]
@@ -104,7 +100,6 @@ def create_item_on_remote(item):
     post(endpoint, data)
 
 def create_topic_on_remote(topic, is_private):
-    exit_if_no_auth()
     user_name = get_settings('user_name')
     data = {"name": topic,
             "is_private": is_private}

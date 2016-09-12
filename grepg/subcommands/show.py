@@ -12,6 +12,7 @@ class Show(Command):
     # TODO: THis should work similar to
     # the original grepg client
     def execute(self):
+        exit_if_no_auth()
         available_topics = get_user_topics()
         matched_topics = filter(lambda topic_obj: starts_with_case_insensitive(self.topic, topic_obj.name),  available_topics)
 

@@ -15,7 +15,7 @@ setup(
     include_package_data = True,
 
     # Author information:
-    author = 'Yash Ranadive',
+    author = ['Yash Ranadive', 'Tejal Desai'],
     author_email = 'yash@greppage.com',
 
     # Metadata:

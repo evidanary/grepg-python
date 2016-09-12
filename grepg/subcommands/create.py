@@ -98,6 +98,7 @@ command: git checkout -b NEW_BRANCH
         print('Successfully created topic {0}'.format(input_topic))
 
     def execute(self):
+        exit_if_no_auth()
         if(self.parsed_args.create_subcommand.lower()
                 == 'item'):
             self.create_item()

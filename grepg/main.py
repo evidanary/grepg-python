@@ -40,6 +40,16 @@ def create_parser():
     sub_parsers = parser.add_subparsers(dest='subcommand',
             help='sub-command help')
 
+    # Search
+    parser_search = sub_parsers.add_parser('search',
+            help='Searches for keywords')
+
+    parser_search.add_argument('-g', '--global_search',
+            action='store_true',
+            help='Search all public data on GrepPage')
+    parser_search.add_argument('keywords',
+            nargs=argparse.REMAINDER)
+
     # Configure
     parser_configure = sub_parsers.add_parser('configure',
             help='Configures the client for accessing private data')
@@ -65,19 +75,12 @@ def create_parser():
     parser_show.add_argument('topic_name',
             nargs=1)
 
-    # Search
-    parser_search = sub_parsers.add_parser('search',
-            help='Searches for keywords')
-
-    parser_search.add_argument('-g', '--global_search',
-            action='store_true',
-            help='Search all public data on GrepPage')
-    parser_search.add_argument('keywords',
-            nargs=argparse.REMAINDER)
     return parser
 
 def get_args(args):
-    if args[0].lower() not in "create configure show search".split():
+    if len(args) == 0:
+        args.insert(0, '--help')
+    elif args[0].lower() not in "create configure show search".split():
         args.insert(0, DEFAULT_SUBCOMMAND)
     return args
 
