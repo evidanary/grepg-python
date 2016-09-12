@@ -4,7 +4,7 @@ import sys, tempfile, os
 from subprocess import call
 from grepg.command import Command
 from grepg.model import Item
-from grepg.util import get, create_item_on_remote
+from grepg.util import get, create_item_on_remote, get_user_topics, starts_with_case_insensitive
 
 class Create(Command):
     def __init__(self, parsed_args):
@@ -21,14 +21,19 @@ command: abc
 {comment}
 (Anything below this line will be ignored)
 
-Available topics: git, unix and ubuntu, markdown, scala
+Available topics: {available_topics}
 
 Example
 topic: git
 description: create a new branch
 command: git checkout -b NEW_BRANCH
-'''.format(comment=self.comment_begin_string())
+'''.format(comment=self.comment_begin_string(),
+        available_topics=self.available_topics())
         return template
+
+    def available_topics(self):
+       self.topics = get_user_topics()
+       return ','.join([ str(topic) for topic in self.topics])
 
     def read_input_from_editor(self, start_content):
         EDITOR = os.environ.get('EDITOR','vim')
@@ -61,12 +66,11 @@ command: git checkout -b NEW_BRANCH
         comment_line_index = self.index_of_first_occurence(self.comment_begin_string(), lines)
 
         topic = self.extract_field('topic:',
-                lines[topic_line_index:description_line_index])
+                lines[topic_line_index:description_line_index]).strip()
         description = self.extract_field('description:',
-                lines[description_line_index:command_line_index])
+                lines[description_line_index:command_line_index]).strip()
         command = self.extract_field('command:',
-                lines[command_line_index:comment_line_index])
-        command = command.strip()
+                lines[command_line_index:comment_line_index]).strip()
         print('topic: {0}, description: {1}, command: {2}'.format(topic_line_index,
             description_line_index, command_line_index))
         print('Topic: {0}'.format(topic))
@@ -74,14 +78,17 @@ command: git checkout -b NEW_BRANCH
         print('comm: {0}'.format(command))
 
         # we need to get topic_id from cache
-        # topic_id = get_topic_id_from_cache(topic)
-        topic_id=8798
-        return Item(description, command, topic_id)
+        matched_topics = filter(lambda topic_obj: starts_with_case_insensitive(topic, topic_obj.name),  self.topics)
+
+        if matched_topics:
+            return Item(description, command, matched_topics[0].id)
+        else:
+            raise Exception('Could not find topic {0}. Available Topic Names: {1}'.format(topic, self.available_topics()))
 
     def create_item(self):
         template = self.create_item_template()
         edited_message = self.read_input_from_editor(template)
-        # edited_message = template
+        #edited_message = template
         item = self.parse_item_from_user_input(edited_message)
 
         create_item_on_remote(item)

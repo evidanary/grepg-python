@@ -5,6 +5,15 @@ class Item(object):
         self.topic_id = topic_id
 
     def __str__(self):
-        return "{0}\n{1}\n{2}".format(self.item_id, self.description, self.command)
+        return "{0}\n{1}\n{2}".format(self.topic_id, self.description, self.command)
+
+
+class Topic(object):
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
+
+    def __str__(self):
+        return "{0}".format(self.name)
 
 

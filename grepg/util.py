@@ -5,6 +5,7 @@ import os
 import json
 import yaml
 import urllib2
+from model import Topic
 
 
 LOG = logging.getLogger(__name__)
@@ -23,6 +24,20 @@ def get(endpoint):
         return json.loads(json_response)
     except (urllib2.HTTPError, urllib2.URLError) as e:
         raise e
+
+def sheets_uri():
+    url = ('/').join(['/users', get_settings("user_name"), 'sheets_with_stats'])
+    return url
+
+def get_user_topics():
+    topics = get(sheets_uri())
+    topic_objects = []
+
+    for topic in topics:
+        topic_objects.append(
+                Topic(topic["id"], topic["name"]))
+
+    return topic_objects
 
 
 def post(endpoint, data):
@@ -61,3 +76,6 @@ def create_item_on_remote(item):
             "description": item.description}]
     endpoint = '/users/{0}/sheets/{1}/cheats'.format(user_name, item.topic_id)
     post(endpoint, data)
+
+def starts_with_case_insensitive(prefix, string):
+    return string.lower().startswith(prefix.lower())
