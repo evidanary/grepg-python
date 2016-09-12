@@ -31,7 +31,7 @@ class Configure(Command):
         # Read from STDIN
         settings['user_name'] = raw_input('Default Username: ')
         secrets['secret_access_key'] = raw_input(
-                'GrepPage Secret Access Key: ')
+                'GrepPage Secret Access Key (Settings > Token > Secret API Key on greppage.com): ')
 
         # Merge configuration from what we already know
         credentials = self.merge_dicts(

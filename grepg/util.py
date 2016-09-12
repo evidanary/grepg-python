@@ -13,8 +13,8 @@ from termcolor import cprint
 
 
 LOG = logging.getLogger(__name__)
-#BASE_URL = 'https://www.greppage.com/api'
-BASE_URL = 'http://127.0.0.1:4567/api'
+BASE_URL = 'https://www.greppage.com/api'
+# BASE_URL = 'http://127.0.0.1:4567/api'
 GUEST_ACCESS_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImFsZyI6IkhTMjU2IiwidHlwIjoiSldUIn0.eyJpZCI6MjAwMDAwMDAwMCwiZW1haWwiOiJndWVzdEBndWVzdC5jb20iLCJuYW1lIjoiZ3Vlc3QiLCJleHAiOjE1MTExMzY4MzB9.gWohR7LLtROgjSl5SxbEaGRBveZQEv7Uj2rzmgYrbys'
 # Any variables specified in this list will be written to
 # the ~/.aws/credentials file instead of ~/.aws/config.
