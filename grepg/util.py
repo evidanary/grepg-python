@@ -5,7 +5,9 @@ import os
 import json
 import yaml
 import urllib2
+
 from model import Topic
+from termcolor import cprint
 
 
 LOG = logging.getLogger(__name__)
@@ -22,8 +24,8 @@ def get(endpoint):
                 get_settings('secret_access_key', GUEST_ACCESS_TOKEN))
         json_response = urllib2.urlopen(request).read()
         return json.loads(json_response)
-    except (urllib2.HTTPError, urllib2.URLError) as e:
-        raise e
+    except Exception as e:
+        raise Exception ('{0}\nPlease write to support@greppage.com if you continue seeing this'.format(e))
 
 def sheets_uri():
     url = ('/').join(['/users', get_settings("user_name"), 'sheets_with_stats'])
@@ -49,11 +51,14 @@ def post(endpoint, data):
                 get_settings('secret_access_key', GUEST_ACCESS_TOKEN))
         json_response = urllib2.urlopen(request).read()
         return json.loads(json_response)
-    except (urllib2.HTTPError, urllib2.URLError) as e:
-        raise e
+    except Exception as e:
+        raise Exception ('{0}\nPlease write to support@greppage.com if you continue seeing this'.format(e))
 
 def user_dir():
       return os.path.expanduser("~")
+
+def cheats_uri(topic_id):
+        return ('/').join(['/users', get_settings('user_name'), 'sheets', str(topic_id), 'cheats'])
 
 def get_settings(key_name, default=None):
     file_to_load = 'credentials.yml' if(key_name in WRITE_TO_CREDS_FILE) else 'settings.yml'
@@ -79,3 +84,11 @@ def create_item_on_remote(item):
 
 def starts_with_case_insensitive(prefix, string):
     return string.lower().startswith(prefix.lower())
+
+
+def print_util(string, color, colorize):
+  if colorize:
+    cprint(string, color)
+  else:
+    print(string)
+

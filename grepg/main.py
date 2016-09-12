@@ -36,6 +36,9 @@ def create_parser():
     parser.add_argument('--verbose',
             action='store_true',
             help='Show debugging info')
+    parser.add_argument('--colorize',
+            action='store_false',
+            help='Colorize the output')
 
     sub_parsers = parser.add_subparsers(dest='subcommand',
             help='sub-command help')
@@ -57,6 +60,8 @@ def create_parser():
     # Show
     parser_show = sub_parsers.add_parser('show',
             help='Displays a resource on GrepPage')
+    parser_show.add_argument('topic_name',
+            nargs=1)
 
     # Search
     parser_search = sub_parsers.add_parser('search',
