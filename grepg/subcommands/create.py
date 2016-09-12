@@ -4,7 +4,7 @@ import sys, tempfile, os
 from subprocess import call
 from grepg.command import Command
 from grepg.model import Item
-from grepg.util import get
+from grepg.util import get, create_item_on_remote
 
 class Create(Command):
     def __init__(self, parsed_args):
@@ -60,27 +60,31 @@ command: git checkout -b NEW_BRANCH
         command_line_index = self.index_of_first_occurence('command:', lines)
         comment_line_index = self.index_of_first_occurence(self.comment_begin_string(), lines)
 
-        topic = self.extract_field('topic:', lines[topic_line_index:description_line_index])
-        description = self.extract_field('description:', lines[description_line_index:command_line_index])
-        command = self.extract_field('command:', lines[command_line_index:comment_line_index])
-        command = command.rstrip("\n")
+        topic = self.extract_field('topic:',
+                lines[topic_line_index:description_line_index])
+        description = self.extract_field('description:',
+                lines[description_line_index:command_line_index])
+        command = self.extract_field('command:',
+                lines[command_line_index:comment_line_index])
+        command = command.strip()
         print('topic: {0}, description: {1}, command: {2}'.format(topic_line_index,
             description_line_index, command_line_index))
         print('Topic: {0}'.format(topic))
         print('Des: {0}'.format(description))
         print('comm: {0}'.format(command))
 
-        # we need to get this from cache
+        # we need to get topic_id from cache
         # topic_id = get_topic_id_from_cache(topic)
-        topic_id=1
+        topic_id=8798
         return Item(description, command, topic_id)
 
     def create_item(self):
         template = self.create_item_template()
-        #edited_message = self.read_input_from_editor(template)
-        edited_message = template
+        edited_message = self.read_input_from_editor(template)
+        # edited_message = template
         item = self.parse_item_from_user_input(edited_message)
-        #create_item_on_server(item)
+
+        create_item_on_remote(item)
 
     def execute(self):
         if(self.parsed_args.create_subcommand.lower()
