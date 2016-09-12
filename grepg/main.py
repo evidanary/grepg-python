@@ -21,13 +21,10 @@ Options:
 """
 
 import argparse
+import sys
 
-from sys import version_info as py_ver
-from . import __version__ as version
 from grepg import GrepG
 
-
-USER_AGENT = 'grepg/{} (python {})'.format(version, '{}.{}.{}'.format(py_ver.major, py_ver.minor, py_ver.micro))
 PROG = 'grepg'
 DEFAULT_SUBCOMMAND = "search"
 

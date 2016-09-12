@@ -22,6 +22,8 @@ setup(
     keywords = ['greppage', 'client', 'cli'],
     license = 'MIT',
     install_requires = [
+        'PyYAML==3.12',
+        'termcolor==1.1.0',
     ],
     extras_require = {
     },

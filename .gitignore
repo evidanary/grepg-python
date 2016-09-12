@@ -2,6 +2,7 @@
 *.swp
 *.swo
 .cache
+*.egg-info/
 /dist
 /build
 /venv
