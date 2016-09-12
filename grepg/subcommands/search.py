@@ -2,15 +2,22 @@ from __future__ import print_function
 from grepg.command import Command
 from grepg.model import Item
 from grepg.util import *
+from urllib import urlencode
 
 class Search(Command):
     def __init__(self, parsed_args):
         self.parsed_args = parsed_args
+        self.scope = 'global' if parsed_args.global_search else 'local'
         self.colorize = parsed_args.colorize
 
     def execute(self):
-        endpoint = '/search?wt=json&q={0}'.format('%20'.join(self.parsed_args.keywords))
-        endpoint = '%20'.join([endpoint, '%20AND%20type:cheat'])
+        encoded_params = urlencode({
+                "scope": self.scope,
+                "wt": "json",
+                # we will only get the cheats and not topics
+                "q": " ".join(self.parsed_args.keywords) + " AND type:cheat",
+                })
+        endpoint = '/search?{0}'.format(encoded_params)
         search_results = get(endpoint)
 
         for item in search_results['docs']:

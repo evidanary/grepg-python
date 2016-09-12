@@ -31,7 +31,7 @@ def get(endpoint):
         json_response = urllib2.urlopen(request).read()
         return json.loads(json_response)
     except Exception as e:
-        raise Exception ('{0}\nPlease write to support@greppage.com if you continue seeing this'.format(e))
+        raise Exception ("{0}\nPlease write to support@greppage.com if you continue seeing this".format(e))
 
 def sheets_uri():
     url = ('/').join(['/users', get_settings("user_name"), 'sheets_with_stats'])
@@ -58,7 +58,6 @@ def get_user_topics():
 
 def post(endpoint, data):
     try:
-        #data = urllib2.urlencode(data)
         data = json.dumps(data, ensure_ascii=False)
         request = urllib2.Request(BASE_URL + endpoint, data)
         request.add_header('Authorization', 'Bearer ' +
@@ -76,7 +75,7 @@ def cheats_uri(topic_id):
         return ('/').join(['/users', get_settings('user_name'), 'sheets', str(topic_id), 'cheats'])
 
 def get_settings(key_name, default=None):
-    file_to_load = credentials_file() if(key_name in WRITE_TO_CREDS_FILE) else settngs_file()
+    file_to_load = credentials_file() if(key_name in WRITE_TO_CREDS_FILE) else settings_file()
     home = user_dir()
     user_settings_file = os.path.join(home,
                 '.grepg', file_to_load)
@@ -84,17 +83,32 @@ def get_settings(key_name, default=None):
         with open(user_settings_file) as user_config_file:
             try:
                 yaml_dict = yaml.load(user_config_file)
-                if key_name in yaml_dict:
+                if key_name in yaml_dict and len(yaml_dict[key_name].strip()) > 0:
                     return yaml_dict[key_name]
             except Exception as e:
                 raise e
         return default
 
+def exit_if_no_auth():
+    if len(get_settings('user_name').strip()) == 0 or len(get_settings('secret_access_key')) == 0:
+        print('Missing user_name or secret_access_key.\n\nTo fix: Run grepg configure')
+        # TODO : We need to handle this with an exception that will deal with exiting
+        exit(1)
+
 def create_item_on_remote(item):
+    exit_if_no_auth()
     user_name = get_settings('user_name')
     data = [{"command": item.command,
             "description": item.description}]
     endpoint = '/users/{0}/sheets/{1}/cheats'.format(user_name, item.topic_id)
+    post(endpoint, data)
+
+def create_topic_on_remote(topic, is_private):
+    exit_if_no_auth()
+    user_name = get_settings('user_name')
+    data = {"name": topic,
+            "is_private": is_private}
+    endpoint = '/users/{0}/sheets'.format(user_name)
     post(endpoint, data)
 
 def starts_with_case_insensitive(prefix, string):

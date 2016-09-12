@@ -53,6 +53,11 @@ def create_parser():
             help="Create an item")
     create_topic_parser = create_sp.add_parser('topic',
             help="Create a topic")
+    create_topic_parser.add_argument('topic_name',
+            help="Create a topic with the name. Don't create if already exists")
+    create_topic_parser.add_argument('-p', '--private',
+            action='store_true',
+            help='Create a private topic')
 
     # Show
     parser_show = sub_parsers.add_parser('show',
@@ -64,7 +69,7 @@ def create_parser():
     parser_search = sub_parsers.add_parser('search',
             help='Searches for keywords')
 
-    parser_search.add_argument('--global',
+    parser_search.add_argument('-g', '--global_search',
             action='store_true',
             help='Search all public data on GrepPage')
     parser_search.add_argument('keywords',

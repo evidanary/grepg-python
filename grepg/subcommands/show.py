@@ -21,8 +21,6 @@ class Show(Command):
             for item in items:
                 print_util(item['description'], 'blue', self.colorize)
                 print(item['command'], "\n")
-
-
         else:
             raise Exception('Could not find topic {0}. Available Topic Names: {1}'.format(self.topic,
                 ",".join(available_topics)))
