@@ -3,7 +3,7 @@ GrepG: Python Client For GrepPage
 
 `grepg` (pronounced Grep G) is a python client for [GrepPage](https://www.greppage.com).  It allows you to access your cheat sheets without leaving the terminal.
 
-![grepg screenshot](http://i.imgur.com/aOaqux7.png)
+![grepg screenshot](http://imgur.com/IqlY9lZ)
 
 #Installation
 To install `grepg` run
@@ -33,6 +33,9 @@ You will need to create an [GrepPage Account](https://www.greppage.com/signup) a
 $ grepg configure
 Default Username: evidanary
 GrepPage Secret Access Key (Settings > Token > Secret API Key on greppage.com): .......
+$ grepg secret
+Some secret description
+secret command
 ```
 Paste the Secret API Key from Settings>Token>Secret API Key
 
