@@ -1,7 +1,7 @@
 GrepG: Python Client For GrepPage
 ===
 
-`grepg` (pronounced Grep G) is a python client for [GrepPage](https://www.greppage.com).  It allows you to access your cheat sheets without leaving the terminal.
+`grepg` (pronounced Grep G) is a python client for [GrepPage](https://www.greppage.com).  It allows you to access your notes without leaving the terminal.
 
 ![GrepG Screenshot](http://i.imgur.com/IqlY9lZ.png)
 
