@@ -3,7 +3,7 @@ GrepG: Python Client For GrepPage
 
 `grepg` (pronounced Grep G) is a python client for [GrepPage](https://www.greppage.com).  It allows you to access your cheat sheets without leaving the terminal.
 
-![grepg screenshot](http://imgur.com/IqlY9lZ)
+[GrepG Screenshot](http://i.imgur.com/IqlY9lZ.png)
 
 #Installation
 To install `grepg` run
