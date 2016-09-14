@@ -3,7 +3,7 @@ GrepG: Python Client For GrepPage
 
 `grepg` (pronounced Grep G) is a python client for [GrepPage](https://www.greppage.com).  It allows you to access your cheat sheets without leaving the terminal.
 
-[GrepG Screenshot](http://i.imgur.com/IqlY9lZ.png)
+![GrepG Screenshot](http://i.imgur.com/IqlY9lZ.png)
 
 #Installation
 To install `grepg` run
@@ -29,6 +29,7 @@ Add or append something to the end of the array
 
 ##Search Private Notes on GrepPage
 You will need to create an [GrepPage Account](https://www.greppage.com/signup) and then run `grepg configure`
+
 ```
 $ grepg configure
 Default Username: evidanary
@@ -60,21 +61,27 @@ optional arguments:
 
 
 ##Creating Data
-Add an item
+(Requires setting up of auth credentials)
+
+Add an item -
+
 ```
 $ grepg add item
 ...opens a file in your editor
 Successfully created item
 ```
 
-Or add a topic
+Or add a topic - 
+
 ```
 $ grepg add topic Ruby
 Successfully created topic Ruby
 ```
 
 ##Show a Topic
-Requires auth
+
+(Requires setting up of auth credentials)
+
 ```
 $ grepg show scala
 Convert List of string to Set
