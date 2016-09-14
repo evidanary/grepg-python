@@ -6,7 +6,7 @@ from grepg.util import *
 class Show(Command):
     def __init__(self, parsed_args):
         self.topic = parsed_args.topic_name[0]
-        self.colorize = parsed_args.colorize
+        self.colorize = not parsed_args.no_colorize
 
 
     # TODO: THis should work similar to

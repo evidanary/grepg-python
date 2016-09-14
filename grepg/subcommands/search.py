@@ -8,7 +8,7 @@ class Search(Command):
     def __init__(self, parsed_args):
         self.parsed_args = parsed_args
         self.scope = 'global' if parsed_args.global_search else 'local'
-        self.colorize = parsed_args.colorize
+        self.colorize = not parsed_args.no_colorize
 
     def execute(self):
         encoded_params = urlencode({
