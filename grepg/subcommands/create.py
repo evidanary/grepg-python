@@ -31,9 +31,9 @@ command: git checkout -b NEW_BRANCH
         available_topics=self.available_topics())
         return template
 
-    def available_topics(self):
+    def available_topics(self, join_str = ",\n"):
        self.topics = get_user_topics()
-       return ','.join([ str(topic) for topic in self.topics])
+       return join_str.join([ str(topic) for topic in self.topics])
 
     def read_input_from_editor(self, start_content):
         EDITOR = os.environ.get('EDITOR','vim')
@@ -71,13 +71,15 @@ command: git checkout -b NEW_BRANCH
                 lines[description_line_index:command_line_index]).strip()
         command = self.extract_field('command:',
                 lines[command_line_index:comment_line_index]).strip()
+        if not (len(topic) > 0 and len(description) > 0 and len(command) > 0):
+            raise Exception("Missing topic, description or command")
         matched_topics = filter(lambda topic_obj: starts_with_case_insensitive(topic,
             topic_obj.name), self.topics)
 
         if matched_topics:
             return Item(description, command, matched_topics[0].id)
         else:
-            raise Exception("Could not find topic {0}. Available Topic Names: {1}".format(topic, self.available_topics()))
+            raise Exception("Could not find topic {0}. Available Topic Names: {1}".format(topic, self.available_topics(", ")))
 
     def create_item(self):
         template = self.create_item_template()

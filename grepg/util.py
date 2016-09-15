@@ -10,6 +10,7 @@ from sys import version_info as py_ver
 from . import __version__ as version
 from model import Topic
 from termcolor import cprint
+from datetime import datetime
 
 
 LOG = logging.getLogger(__name__)
@@ -109,6 +110,23 @@ def create_topic_on_remote(topic, is_private):
 def starts_with_case_insensitive(prefix, string):
     return string.lower().startswith(prefix.lower())
 
+
+def create_file(config_filename):
+    # Create the file as well as the parent dir if needed.
+    dirname = os.path.split(config_filename)[0]
+    if not os.path.isdir(dirname):
+        os.makedirs(dirname)
+    with os.fdopen(os.open(config_filename,
+            os.O_WRONLY | os.O_CREAT, 0o600), 'w'):
+        pass
+
+def log_query(search_str, count):
+    log_file_name = os.path.join(user_dir(), '.grepg', 'queries.log')
+    if not os.path.isfile(log_file_name):
+        create_file(log_file_name)
+    current_date_iso = datetime.utcnow().isoformat() + 'Z'
+    with open(log_file_name, 'a') as fp:
+        fp.write("{0}\t{1}\t{2}\n".format(current_date_iso, search_str, count))
 
 def print_util(string, color, colorize):
   if colorize:

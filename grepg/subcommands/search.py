@@ -25,5 +25,8 @@ class Search(Command):
                 print_util(item['description'], 'blue', self.colorize)
                 print(item['command'], "\n")
 
+        #Log the query
+        log_query(" ".join(self.parsed_args.keywords), search_results["numFound"])
+
         if not len(search_results['docs']) > 0 :
             print('No items found for "{0}"'.format(" ".join(self.parsed_args.keywords)))

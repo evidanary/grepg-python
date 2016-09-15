@@ -16,7 +16,8 @@ Sub-Command:
     search            Searches for keywords
 Options:
     -h, --help                              Lists help
-    -v, --verbose                           Show debugging info
+    -d, --debug                             Show debug info
+    -v, --version                           Show version
     -o, --global                            Search all public data on GrepPage
 """
 
@@ -24,15 +25,19 @@ import argparse
 import sys
 
 from grepg import GrepG
+from . import __version__
 
 PROG = 'grepg'
 DEFAULT_SUBCOMMAND = "search"
 
 def create_parser():
     parser = argparse.ArgumentParser(prog=PROG)
-    parser.add_argument('--verbose',
+    parser.add_argument('--debug',
             action='store_true',
             help='Show debugging info')
+    parser.add_argument('--version',
+            action='version',
+            version='%(prog)s {version}'.format(version=__version__))
 
     sub_parsers = parser.add_subparsers(dest='subcommand',
             help='sub-command help')
@@ -84,6 +89,8 @@ def create_parser():
 def get_args(args):
     if len(args) == 0:
         args.insert(0, '--help')
+    elif args[0].lower() in ['-h', '--help', '-d', '--debug', '-v', '--version']:
+        pass
     elif args[0].lower() not in "create configure show search".split():
         args.insert(0, DEFAULT_SUBCOMMAND)
     return args

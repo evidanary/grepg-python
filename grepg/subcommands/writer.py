@@ -1,5 +1,6 @@
 import os
 import yaml
+from grepg.util import create_file
 
 class ConfigFileWriter(object):
     def update_config(self, new_values, config_filename):
@@ -18,18 +19,10 @@ class ConfigFileWriter(object):
         :param config_filename: The config filename where we will write values
         """
         if not os.path.isfile(config_filename):
-            self.create_file(config_filename)
+            create_file(config_filename)
         with open(config_filename, 'w') as outfile:
             yaml.dump(new_values, outfile, default_flow_style=False)
 
 
-    def create_file(self, config_filename):
-        # Create the file as well as the parent dir if needed.
-        dirname = os.path.split(config_filename)[0]
-        if not os.path.isdir(dirname):
-            os.makedirs(dirname)
-        with os.fdopen(os.open(config_filename,
-                               os.O_WRONLY | os.O_CREAT, 0o600), 'w'):
-            pass
 
 
