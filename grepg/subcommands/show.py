@@ -23,5 +23,5 @@ class Show(Command):
                 print_util(item['description'], 'blue', self.colorize)
                 print(item['command'], "\n")
         else:
-            raise Exception('Could not find topic {0}. Available Topic Names: {1}'.format(self.topic,
-                ",".join(available_topics)))
+            raise ValueError('Could not find topic {0}. Available Topic Names: {1}'.format(self.topic,
+                ",".join([topic.name for topic in available_topics])))

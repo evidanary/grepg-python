@@ -30,7 +30,8 @@ from . import __version__
 PROG = 'grepg'
 DEFAULT_SUBCOMMAND = "search"
 
-def create_parser():
+# Get parsed arguments from the commandline
+def get_parsed_args():
     parser = argparse.ArgumentParser(prog=PROG)
     parser.add_argument('--debug',
             action='store_true',
@@ -84,8 +85,10 @@ def create_parser():
             action='store_true',
             help='Dont Colorize the output')
 
-    return parser
+    parsed_args = parser.parse_args(get_args(sys.argv[1:]))
+    return parsed_args
 
+# Gets arguments: The default subcomman is search
 def get_args(args):
     if len(args) == 0:
         args.insert(0, '--help')
@@ -96,9 +99,17 @@ def get_args(args):
     return args
 
 def main():
-    parser = create_parser()
-    parsed_args = parser.parse_args(get_args(sys.argv[1:]))
+    parsed_args = get_parsed_args()
     GrepG.create_command_clazz(parsed_args).execute()
+
+# Shows stack trace only when debug
+def exceptionHandler(exception_type, exception, traceback, debug_hook=sys.excepthook):
+    if get_parsed_args().debug:
+        debug_hook(exception_type, exception, traceback)
+    else:
+        print("{0}: {1}".format(exception_type.__name__, exception))
+
+sys.excepthook = exceptionHandler
 
 if __name__ == '__main__':
     import sys

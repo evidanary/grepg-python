@@ -32,7 +32,7 @@ def get(endpoint):
         json_response = urllib2.urlopen(request).read()
         return json.loads(json_response)
     except Exception as e:
-        raise Exception ("{0}\nPlease write to support@greppage.com if you continue seeing this".format(e))
+        raise Exception ("Server Error. {0}\nPlease write to support@greppage.com if you continue seeing this".format(e))
 
 def sheets_uri():
     url = ('/').join(['/users', get_settings("user_name"), 'sheets_with_stats'])
@@ -67,7 +67,7 @@ def post(endpoint, data):
         json_response = urllib2.urlopen(request).read()
         return json.loads(json_response)
     except (urllib2.HTTPError, urllib2.URLError) as e:
-        raise e
+        raise Exception ("Server Error. {0}\nPlease write to support@greppage.com if you continue seeing this".format(e))
 
 def user_dir():
       return os.path.expanduser("~")
