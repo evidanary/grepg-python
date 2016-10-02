@@ -133,4 +133,3 @@ def print_util(string, color, colorize):
     cprint(string, color)
   else:
     print(string)
-

@@ -3,6 +3,7 @@ from grepg.command import Command
 from grepg.model import Item
 from grepg.util import *
 from urllib import urlencode
+from termcolor import cprint
 
 class Search(Command):
     def __init__(self, parsed_args):
@@ -22,11 +23,16 @@ class Search(Command):
 
         for item in search_results['docs']:
             if(item['type'] == 'cheat'):
-                print_util(item['description'], 'blue', self.colorize)
+                if self.colorize:
+                    cprint(item['description'], 'blue', end=' ')
+                    cprint("[" + item['topic_name'] + "]", 'red')
+                else:
+                    cprint("[" + item['topic_name'] + "]")
+                    cprint(item['description'])
                 print(item['command'], "\n")
 
         #Log the query
         log_query(" ".join(self.parsed_args.keywords), search_results["numFound"])
 
         if not len(search_results['docs']) > 0 :
-            print('No items found for "{0}"'.format(" ".join(self.parsed_args.keywords)))
+            print('No items found for "{0}". To search the web Cmd+Click this link https://google.com/search?q={0}'.format("+".join(self.parsed_args.keywords)))
