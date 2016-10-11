@@ -1,26 +1,5 @@
 #!/usr/bin/env python
 from __future__ import print_function
-
-""" grepg - A command-line search utility for GrepPage (www.greppage.com)
-
-Usage:
-    grepg ruby file open # searches for "ruby file open"
-    grepg
-
-Query: Search Query keywords e.g. "ruby open file"
-Sub-Command:
-    configure         Configures the client for accessing private data
-    create item       Open editor to add an item
-    create topic      Adds a topic
-    show topic        Shows all items in a topic
-    search            Searches for keywords
-Options:
-    -h, --help                              Lists help
-    -d, --debug                             Show debug info
-    -v, --version                           Show version
-    -o, --global                            Search all public data on GrepPage
-"""
-
 import argparse
 import sys
 
@@ -51,9 +30,12 @@ def get_parsed_args():
     parser_search.add_argument('--no_colorize',
             action='store_true',
             help='Dont Colorize the output')
-    parser_search.add_argument('-g', '--global_search',
+    parser_search.add_argument('-l', '--local_search',
             action='store_true',
-            help='Search all public data on GrepPage')
+            help='Search my data only')
+    parser_search.add_argument('-n', '--no_pager',
+            action='store_true',
+            help='Dont use a pager (less) to display output')
     parser_search.add_argument('keywords',
             nargs=argparse.REMAINDER)
 
