@@ -43,7 +43,8 @@ class Search(Command):
                 else:
                     text.append(" ".join([
                         item['description'],
-                        "[" + item['topic_name'] + "]"
+                        "[" + item['topic_name'] + "]",
+                        "(" + item["user_name"] + ")"
                         ]))
                 text.append(item['command'] + "\n")
         return "\n".join(text)
@@ -51,7 +52,7 @@ class Search(Command):
     def print_results(self, text, result_items):
         cprint(text)
         if(self.pager and len(result_items) > self.ACTIVATE_PAGER_ITEM_COUNT):
-            pydoc.pager(text)
+            pydoc.pipepager(text, cmd="less -RKFIQ")
 
     def execute(self):
         result = self.raw_search_results()
