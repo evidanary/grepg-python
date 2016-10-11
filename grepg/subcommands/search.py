@@ -46,7 +46,7 @@ class Search(Command):
                         "[" + item['topic_name'] + "]",
                         "(" + item["user_name"] + ")"
                         ]))
-                text.append(item['command'] + "\n")
+                text.append(item.get('command', "-") + "\n")
         return "\n".join(text)
 
     def print_results(self, text, result_items):
