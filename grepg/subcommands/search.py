@@ -12,7 +12,6 @@ class Search(Command):
     # mixed scope shows a merge of user owned data and public data
     # local scope shows results on user owned data only
     DEFAULT_SEARCH_SCOPE = "mixed"
-    ACTIVATE_PAGER_ITEM_COUNT = 5
 
     def __init__(self, parsed_args):
         self.parsed_args = parsed_args
@@ -51,7 +50,7 @@ class Search(Command):
 
     def print_results(self, text, result_items):
         cprint(text)
-        if(self.pager and len(result_items) > self.ACTIVATE_PAGER_ITEM_COUNT):
+        if(self.pager):
             pydoc.pipepager(text, cmd="less -RKFIQ")
 
     def execute(self):
