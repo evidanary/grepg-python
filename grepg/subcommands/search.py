@@ -24,7 +24,7 @@ class Search(Command):
                 "scope": self.scope,
                 "wt": "json",
                 # we will only get the cheats and not topics
-                "q": " ".join(self.parsed_args.keywords) + " AND type:cheat",
+                "q": " ".join(self.parsed_args.keywords),
                 })
         endpoint = '/search?{0}'.format(encoded_params)
         return get(endpoint)
