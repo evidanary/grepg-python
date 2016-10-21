@@ -26,7 +26,7 @@ class Search(Command):
                 # we will only get the cheats and not topics
                 "q": " ".join(self.parsed_args.keywords),
                 })
-        endpoint = '/search?{0}'.format(encoded_params)
+        endpoint = '/search/items?{0}'.format(encoded_params)
         return get(endpoint)
 
     def formatted_results(self, search_results_items):
