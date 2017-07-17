@@ -4,11 +4,11 @@ import logging
 import os
 import json
 import yaml
-import urllib2
+import urllib.request
 
 from sys import version_info as py_ver
 from . import __version__ as version
-from model import Topic
+from grepg.model import Topic
 from termcolor import cprint
 from datetime import datetime
 
