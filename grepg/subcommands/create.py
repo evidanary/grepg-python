@@ -73,8 +73,8 @@ command: git checkout -b NEW_BRANCH
                 lines[command_line_index:comment_line_index]).strip()
         if not (len(topic) > 0 and len(description) > 0 and len(command) > 0):
             raise Exception("Missing topic, description or command")
-        matched_topics = filter(lambda topic_obj: starts_with_case_insensitive(topic,
-            topic_obj.name), self.topics)
+        matched_topics = list(filter(lambda topic_obj: starts_with_case_insensitive(topic,
+            topic_obj.name), self.topics))
 
         if matched_topics:
             return Item(description, command, matched_topics[0].id)
@@ -92,7 +92,7 @@ command: git checkout -b NEW_BRANCH
     def create_topic(self):
         input_topic = self.parsed_args.topic_name
         is_private = self.parsed_args.private
-        matched_topics = filter(lambda topic_obj: input_topic.lower() ==  topic_obj.name.lower(), get_user_topics())
+        matched_topics = list(filter(lambda topic_obj: input_topic.lower() ==  topic_obj.name.lower(), get_user_topics()))
         if len(matched_topics) > 0:
             print("Topic already exists: {0}".format(matched_topics[0]))
             exit(1)

@@ -25,11 +25,11 @@ USER_AGENT = 'grepg/{} (python {})'.format(version, '{}.{}.{}'.format(py_ver.maj
 # Gets the json object from the URL
 def get(endpoint):
     try:
-        request = urllib2.Request(BASE_URL + endpoint)
+        request = urllib.request.Request(BASE_URL + endpoint)
         request.add_header('Authorization', 'Bearer ' +
                 get_settings('secret_access_key', GUEST_ACCESS_TOKEN))
         request.add_header('User-Agent', USER_AGENT)
-        json_response = urllib2.urlopen(request).read()
+        json_response = urllib.request.urlopen(request).read()
         return json.loads(json_response)
     except Exception as e:
         raise Exception ("Server Error. {0}\nPlease write to support@greppage.com if you continue seeing this".format(e))
@@ -57,17 +57,17 @@ def get_user_topics():
     return topic_objects
 
 
-def post(endpoint, data):
+def post(endpoint, in_data):
     try:
-        data = json.dumps(data, ensure_ascii=False)
-        request = urllib2.Request(BASE_URL + endpoint, data)
+        data = urllib.parse.urlencode(in_data).encode("utf-8")
+        request = urllib.request.Request(BASE_URL + endpoint, data)
         request.add_header('Authorization', 'Bearer ' +
                 get_settings('secret_access_key', GUEST_ACCESS_TOKEN))
         request.add_header('User-Agent', USER_AGENT)
-        json_response = urllib2.urlopen(request).read()
+        json_response = urllib.request.urlopen(request).read()
         return json.loads(json_response)
-    except (urllib2.HTTPError, urllib2.URLError) as e:
-        raise Exception ("Server Error. {0}\nPlease write to support@greppage.com if you continue seeing this".format(e))
+    except (urllib.request.HTTPError, urllib.request.URLError) as e:
+        raise Exception ("Create Item is broken. We are working on it. {0}\nPlease write to support@greppage.com if you continue seeing this".format(e))
 
 def user_dir():
       return os.path.expanduser("~")
