@@ -2,7 +2,7 @@ from __future__ import print_function
 from grepg.command import Command
 from grepg.model import Item
 from grepg.util import *
-from urllib import urlencode
+from urllib.parse import urlencode
 from termcolor import colored, cprint
 
 import pydoc
