@@ -59,18 +59,18 @@ read file in to string [Ruby] (my_user_name)
 ## Creating Data
 (Requires setting up of auth credentials)
 
-Add an item -
+Create an item -
 
 ```
-$ grepg add item
+$ grepg create item
 ...opens a file in your editor
 Successfully created item
 ```
 
-Or add a topic -
+Or create a topic -
 
 ```
-$ grepg add topic Ruby
+$ grepg create topic Ruby
 Successfully created topic Ruby
 ```
 

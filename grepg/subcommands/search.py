@@ -51,7 +51,8 @@ class Search(Command):
     def print_results(self, text, result_items):
         cprint(text)
         if(self.pager):
-            pydoc.pipepager(text, cmd="less -RKFIQ")
+            less_options = "RKIQ"
+            pydoc.pipepager(text, cmd="less -{0}".format(less_options))
 
     def execute(self):
         result = self.raw_search_results()
