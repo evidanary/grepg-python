@@ -67,7 +67,7 @@ def post(endpoint, in_data):
         json_response = urllib.request.urlopen(request).read()
         return json.loads(json_response)
     except (urllib.request.HTTPError, urllib.request.URLError) as e:
-        raise Exception ("Create Item is broken. We are working on it. {0}\nPlease write to support@greppage.com if you continue seeing this".format(e))
+        raise Exception ("Create Topic is broken. We are working on it. \n{0}\nPlease write to support@greppage.com if you continue seeing this".format(e))
 
 def user_dir():
       return os.path.expanduser("~")
