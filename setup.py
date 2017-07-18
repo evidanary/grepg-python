@@ -20,6 +20,7 @@ setup(
 
     # Metadata:
     keywords = ['greppage', 'client', 'cli'],
+    python_requires='>=3',
     license = 'MIT',
     install_requires = [
         'PyYAML==3.12',

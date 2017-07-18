@@ -3,7 +3,7 @@ from __future__ import print_function
 import argparse
 import sys
 
-from grepg import GrepG
+from grepg.grepg import GrepG
 from . import __version__
 
 PROG = 'grepg'
