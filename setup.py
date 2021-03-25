@@ -23,7 +23,7 @@ setup(
     python_requires='>=3',
     license = 'MIT',
     install_requires = [
-        'PyYAML==3.12',
+        'PyYAML==5.4',
         'termcolor==1.1.0',
     ],
     extras_require = {
